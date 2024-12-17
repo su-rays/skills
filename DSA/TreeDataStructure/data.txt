@@ -1,0 +1,16 @@
+Data Structure:
+    Binary Trees - has exactly two children of each nodes
+    Binary Search Trees - each nodes left child has less value then right clild
+    AVL Trees - diff b/w the heights of left and right subtrees for every node are less than or equal to 1
+    B-Trees (Balanced Trees) - maintain balance by splitting and merging nodes during insertions and deletions
+
+
+Algorithm:
+    Searching:
+        Breadth First Search
+        Depth First Search
+    Traversal:
+        Pre-Order Traversal
+        In-Order Traversal
+        Post-Order Traversal
+        

@@ -1,0 +1,6 @@
+Data Structure:
+    Trie
+    Segement Trees
+    Fenwick Trees
+    Disjoint Set(union-find)
+    Suffex Trees and Arrays

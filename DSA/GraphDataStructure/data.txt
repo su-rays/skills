@@ -1,0 +1,14 @@
+Data Structure:
+    Directed Graph
+    Undirected Graph
+
+Algorithm:
+    Searching:
+        Breadth First Search
+        Depth First Search
+    Shortest Path:
+        Dijkstra's Algorithm
+        Bellman-Ford Algorithm
+    Minimum Spanning Tree:
+        Prim's Algorithm
+        Kruskal's Algorithm
