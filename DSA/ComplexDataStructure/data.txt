@@ -1,5 +1,0 @@
-Data Structure:
-    B/B+ Trees
-    Skip List
-    ISAM
-    2-3 Trees
