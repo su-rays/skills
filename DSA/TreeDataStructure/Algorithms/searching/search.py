@@ -133,3 +133,64 @@ class TreeAlgorithms:
         if root is None:
             return []
         return self.post_order(root.left) + self.post_order(root.right) + [root.value]
+
+
+
+# Create a BST instance
+bst = BinarySearchTree()
+
+# Insert values into the BST
+bst.insert(10)
+bst.insert(5)
+bst.insert(15)
+bst.insert(2)
+bst.insert(7)
+
+# Traversals
+algo = TreeAlgorithms()
+print("In-Order Traversal:", algo.in_order(bst.root))  # Output: [2, 5, 7, 10, 15]
+print("Pre-Order Traversal:", algo.pre_order(bst.root))  # Output: [10, 5, 2, 7, 15]
+print("Post-Order Traversal:", algo.post_order(bst.root))  # Output: [2, 7, 5, 15, 10]
+
+
+
+# Create an AVL Tree instance
+avl = AVLTree()
+
+# Insert values into the AVL Tree
+avl.insert(10)
+avl.insert(20)
+avl.insert(5)
+avl.insert(4)
+avl.insert(15)
+
+# Traversals
+algo = TreeAlgorithms()
+print("In-Order Traversal:", algo.in_order(avl.root))  # Balanced order: [4, 5, 10, 15, 20]
+print("BFS Traversal:", algo.bfs(avl.root))  # BFS Level-Order Traversal
+
+
+# Tree Traversals Example
+algo = TreeAlgorithms()
+
+# BFS and DFS Traversal
+print("BFS Traversal:", algo.bfs(avl.root))  # Output: Level-wise nodes
+print("DFS Traversal:", algo.dfs(avl.root))  # Output: Depth-first order
+
+
+# Testing on Binary Search Tree
+bst = BinarySearchTree()
+for val in [30, 10, 20, 40, 50]:
+    bst.insert(val)
+
+algo = TreeAlgorithms()
+print("In-Order (BST):", algo.in_order(bst.root))  # Sorted order for BST
+print("BFS (BST):", algo.bfs(bst.root))
+
+# Testing on AVL Tree
+avl = AVLTree()
+for val in [30, 10, 20, 40, 50]:
+    avl.insert(val)
+
+print("In-Order (AVL):", algo.in_order(avl.root))  # Balanced order
+print("BFS (AVL):", algo.bfs(avl.root))  # Level-wise balanced traversal

@@ -1,164 +1,111 @@
+''' Given a string s, find the length of the longest substring without repeating characters. '''
+
+def longest_substring_brute_force(s):
+    max_length = 0
+    for i in range(len(s)):
+        for j in range(i, len(s)):
+            if len(set(s[i:j+1])) == (j - i + 1):  # All unique characters
+                max_length = max(max_length, j - i + 1)
+    return max_length
+
+def longest_substring_greedy(s):
+    max_length = 0
+    start = 0
+    char_index = {}
+    for i, char in enumerate(s):
+        if char in char_index and char_index[char] >= start:
+            start = char_index[char] + 1
+        char_index[char] = i
+        max_length = max(max_length, i - start + 1)
+    return max_length
+
+def longest_substring_divide_conquer(s):
+    def helper(left, right):
+        if left == right:
+            return 1
+        mid = (left + right) // 2
+        left_len = helper(left, mid)
+        right_len = helper(mid + 1, right)
+        
+        cross_len = 0
+        seen = set()
+        i = mid
+        while i >= left and s[i] not in seen:
+            seen.add(s[i])
+            i -= 1
+        j = mid + 1
+        while j <= right and s[j] not in seen:
+            seen.add(s[j])
+            j += 1
+        cross_len = len(seen)
+        return max(left_len, right_len, cross_len)
+
+    return helper(0, len(s) - 1)
+
+def longest_substring_dp(s):
+    dp = [0] * len(s)
+    last_seen = {}
+    max_length = 0
+    for i, char in enumerate(s):
+        if char not in last_seen:
+            dp[i] = dp[i-1] + 1 if i > 0 else 1
+        else:
+            dp[i] = min(dp[i-1] + 1, i - last_seen[char])
+        last_seen[char] = i
+        max_length = max(max_length, dp[i])
+    return max_length
+
+def longest_substring_backtracking(s):
+    def backtrack(start, current):
+        nonlocal max_length
+        max_length = max(max_length, len(current))
+        for i in range(start, len(s)):
+            if s[i] not in current:
+                backtrack(i + 1, current + s[i])
+    max_length = 0
+    backtrack(0, "")
+    return max_length
+
 import random
 
-class ProblemSolvingTechniques:
-    def brute_force_pairs(arr, target):
-        '''Brute-Force algorithm: Finds pairs in an array whose sum equals the target.'''
-        n = len(arr)
-        for i in range(n):
-            for j in range(i + 1, n):
-                if arr[i] + arr[j] == target:
-                    print(arr[i], arr[j])
+def longest_substring_randomized(s):
+    max_length = 0
+    n = len(s)
+    for _ in range(1000):  # Random trials
+        start = random.randint(0, n - 1)
+        end = random.randint(start, n - 1)
+        if len(set(s[start:end+1])) == (end - start + 1):
+            max_length = max(max_length, end - start + 1)
+    return max_length
 
-    def greedy_activity_selection(start, finish):
-        '''Greedy algorithm: Selects the maximum number of activities that don't overlap.'''
-        activities = list(zip(start, finish))
-        activities.sort(key=lambda x: x[1])
-        
-        selected = []
-        last_finish_time = 0
-        
-        for s, f in activities:
-            if s >= last_finish_time:
-                selected.append((s, f))
-                last_finish_time = f
-        
-        print("Selected activities:", selected)
+def longest_substring_recursion(s):
+    def helper(start, seen):
+        if start == len(s):
+            return 0
+        if s[start] in seen:
+            return len(seen)
+        seen.add(s[start])
+        return max(len(seen), helper(start + 1, seen))
+    return helper(0, set())
 
-    def merge_sort(arr):
-        '''Divide and Conquer algorithm: Implements Merge Sort.'''
-        if len(arr) > 1:
-            mid = len(arr) // 2
-            left = arr[:mid]
-            right = arr[mid:]
+def longest_substring_two_pointer(s):
+    start = 0
+    max_length = 0
+    seen = set()
+    for end in range(len(s)):
+        while s[end] in seen:
+            seen.remove(s[start])
+            start += 1
+        seen.add(s[end])
+        max_length = max(max_length, end - start + 1)
+    return max_length
 
-            ProblemSolvingTechniques.merge_sort(left)
-            ProblemSolvingTechniques.merge_sort(right)
-
-            i = j = k = 0
-            while i < len(left) and j < len(right):
-                if left[i] < right[j]:
-                    arr[k] = left[i]
-                    i += 1
-                else:
-                    arr[k] = right[j]
-                    j += 1
-                k += 1
-
-            while i < len(left):
-                arr[k] = left[i]
-                i += 1
-                k += 1
-
-            while j < len(right):
-                arr[k] = right[j]
-                j += 1
-                k += 1
-
-    def fib(n):
-        '''Dynamic Programming: Calculates the nth Fibonacci number.'''
-        if n <= 1:
-            return n
-
-        dp = [0] * (n + 1)
-        dp[1] = 1
-
-        for i in range(2, n + 1):
-            dp[i] = dp[i - 1] + dp[i - 2]
-
-        return dp[n]
-    
-    def is_safe(board, row, col, n):
-        '''Helper function for the N-Queens problem: Checks if a position is safe.'''
-        for i in range(col):
-            if board[row][i] == 1:
-                return False
-        for i, j in zip(range(row, -1, -1), range(col, -1, -1)):
-            if board[i][j] == 1:
-                return False
-        for i, j in zip(range(row, n, 1), range(col, -1, -1)):
-            if board[i][j] == 1:
-                return False
-        return True
-
-    def solve_n_queens(board, col, n):
-        '''Recursive helper function for the N-Queens problem.'''
-        if col >= n:
-            for row in board:
-                print(row)
-            return True
-
-        res = False
-        for i in range(n):
-            if ProblemSolvingTechniques.is_safe(board, i, col, n):
-                board[i][col] = 1
-                res = ProblemSolvingTechniques.solve_n_queens(board, col + 1, n) or res
-                board[i][col] = 0
-        return res
-    
-    def n_queens(n):
-        '''Backtracking: Solves the N-Queens problem.'''
-        board = [[0 for _ in range(n)] for _ in range(n)]
-        ProblemSolvingTechniques.solve_n_queens(board, 0, n)
-
-    def partition(arr, low, high):
-        '''Helper function for Quick Sort: Partitions the array around a pivot.'''
-        pivot = arr[high]
-        i = low - 1
-        for j in range(low, high):
-            if arr[j] < pivot:
-                i += 1
-                arr[i], arr[j] = arr[j], arr[i]
-        arr[i + 1], arr[high] = arr[high], arr[i + 1]
-        return i + 1
-
-    def randomized_quick_sort(arr, low, high):
-        '''Randomized Algorithm: Implements Randomized Quick Sort.'''
-        if low < high:
-            pivot = random.randint(low, high)
-            arr[pivot], arr[high] = arr[high], arr[pivot]
-            pi = ProblemSolvingTechniques.partition(arr, low, high)
-            ProblemSolvingTechniques.randomized_quick_sort(arr, low, pi - 1)
-            ProblemSolvingTechniques.randomized_quick_sort(arr, pi + 1, high)
-
-    def factorial(n):
-        '''Recursion: Calculates the factorial of a number.'''
-        if n == 0:
-            return 1
-        else:
-            return n * ProblemSolvingTechniques.factorial(n - 1)
-        
-    def two_pointer_sum(arr, target):
-        '''Two Pointer Technique: Finds if there exists a pair with the given sum.'''
-        arr.sort()
-        left, right = 0, len(arr) - 1
-        while left < right:
-            current_sum = arr[left] + arr[right]
-            if current_sum == target:
-                print(f"Pair found: {arr[left]}, {arr[right]}")
-                return True
-            elif current_sum < target:
-                left += 1
-            else:
-                right -= 1
-        return False
-    
-    def sliding_window_max_sum(arr, k):
-        '''Sliding Window Technique: Finds the maximum sum of a subarray of size k.'''
-        n = len(arr)
-        if n < k:
-            return -1
-
-        max_sum = sum(arr[:k])
-        current_sum = max_sum
-
-        for i in range(k, n):
-            current_sum += arr[i] - arr[i - k]
-            max_sum = max(max_sum, current_sum)
-
-        return max_sum
-    
-if __name__ == '__main__':
-    arr = [1, 2, 4, 5, 7]
-    arr1 = [3, 5, 6, 8, 9]
-    num = 4
- 
+def longest_substring_sliding_window(s):
+    window = {}
+    max_length = start = 0
+    for end, char in enumerate(s):
+        if char in window and window[char] >= start:
+            start = window[char] + 1
+        window[char] = end
+        max_length = max(max_length, end - start + 1)
+    return max_length
