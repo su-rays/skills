@@ -6,5 +6,4 @@ roadmap
 *.yaml
 *.txt
 DSA/ProblemSolvingTechniques/*
-DSA/AdvancedDataStructure/*
 DSA/ComplexDataStructure/*
