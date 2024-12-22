@@ -78,5 +78,5 @@ class Sorting:
 if __name__ == '__main__':
     arr = [2, 1, 10, 23]
     cls_obj = Sorting(arr)
-    sorted_arr = cls_obj.merge_sort(arr)
+    sorted_arr = cls_obj.heap_sort()
     print(f"Sorted array: {sorted_arr}")

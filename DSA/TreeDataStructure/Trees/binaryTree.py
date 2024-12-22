@@ -28,8 +28,24 @@ class BinaryTree:
                 current.right = Node(values[i])
                 queue.append(current.right)
                 i += 1
-    
+
+    def print_tree(self):
+        if not self.root:
+            print("Tree is empty")
+            return
+        
+        queue = [self.root]
+        while queue:
+            current = queue.pop(0)
+            print(current.value, end=" ")
+
+            if current.left:
+                queue.append(current.left)
+            if current.right:
+                queue.append(current.right)
+        print()
 
 values = [1, 2, 3, 4, 5, 6, 7]
 bt = BinaryTree()
 bt.insert_level_order(values)
+bt.print_tree()

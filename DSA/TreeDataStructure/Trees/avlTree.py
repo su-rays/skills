@@ -5,73 +5,64 @@ class Node:
         self.right = None
         self.height = 1
 
-
 class AVLTree:
-    def _height(self, node):
-        if not node:
-            return 0
-        return node.height
+    def get_height(self, node):
+        return node.height if node else 0
 
-    def _get_balance(self, node):
-        if not node:
-            return 0
-        return self._height(node.left) - self._height(node.right)
+    def get_balance(self, node):
+        return self.get_height(node.left) - self.get_height(node.right) if node else 0
 
-    def _update_height(self, node):
-        node.height = 1 + max(self._height(node.left), self._height(node.right))
-
-    def _rotate_right(self, y):
+    def rotate_right(self, y):
         x = y.left
         T2 = x.right
-
         x.right = y
         y.left = T2
-
-        self._update_height(y)
-        self._update_height(x)
-
+        y.height = 1 + max(self.get_height(y.left), self.get_height(y.right))
+        x.height = 1 + max(self.get_height(x.left), self.get_height(x.right))
         return x
 
-    def _rotate_left(self, x):
+    def rotate_left(self, x):
         y = x.right
         T2 = y.left
-
         y.left = x
         x.right = T2
-
-        self._update_height(x)
-        self._update_height(y)
-
+        x.height = 1 + max(self.get_height(x.left), self.get_height(x.right))
+        y.height = 1 + max(self.get_height(y.left), self.get_height(y.right))
         return y
 
-    def insert(self, root, key):
-        if not root:
+    def insert(self, node, key):
+        if not node:
             return Node(key)
-        elif key < root.key:
-            root.left = self.insert(root.left, key)
+        if key < node.key:
+            node.left = self.insert(node.left, key)
+        elif key > node.key:
+            node.right = self.insert(node.right, key)
         else:
-            root.right = self.insert(root.right, key)
+            return node
 
-        self._update_height(root)
+        node.height = 1 + max(self.get_height(node.left), self.get_height(node.right))
 
-        balance = self._get_balance(root)
+        balance = self.get_balance(node)
 
-        if balance > 1 and key < root.left.key:
-            return self._rotate_right(root)
+        if balance > 1 and key < node.left.key:
+            return self.rotate_right(node)
+        if balance < -1 and key > node.right.key:
+            return self.rotate_left(node)
+        if balance > 1 and key > node.left.key:
+            node.left = self.rotate_left(node.left)
+            return self.rotate_right(node)
+        if balance < -1 and key < node.right.key:
+            node.right = self.rotate_right(node.right)
+            return self.rotate_left(node)
 
-        if balance < -1 and key > root.right.key:
-            return self._rotate_left(root)
+        return node
 
-        if balance > 1 and key > root.left.key:
-            root.left = self._rotate_left(root.left)
-            return self._rotate_right(root)
-
-        if balance < -1 and key < root.right.key:
-            root.right = self._rotate_right(root.right)
-            return self._rotate_left(root)
-
-        return root
-
+    def print_tree(self, node, level=0, prefix="Root: "):
+        if node is not None:
+            print(" " * (level * 4) + prefix + str(node.key))
+            if node.left or node.right:
+                self.print_tree(node.left, level + 1, "L--- ")
+                self.print_tree(node.right, level + 1, "R--- ")
 
 if __name__ == "__main__":
     avl_tree = AVLTree()
@@ -80,3 +71,6 @@ if __name__ == "__main__":
     keys = [10, 20, 30, 40, 50, 25]
     for key in keys:
         root = avl_tree.insert(root, key)
+
+    print("AVL Tree Structure:")
+    avl_tree.print_tree(root)

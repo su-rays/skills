@@ -19,11 +19,11 @@ class LinkedList:
 
     def delete(self, value):
         temp = self.head
-        if temp and temp.value == value:
+        if temp and temp.val == value:
             self.head = temp.next
             return
         while temp:
-            if temp.next and temp.next.value == value:
+            if temp.next and temp.next.val == value:
                 temp.next = temp.next.next
                 return
             temp = temp.next
@@ -31,7 +31,7 @@ class LinkedList:
     def print_list(self):
         temp = self.head
         while temp:
-            print(temp.value, end=" -> ")
+            print(temp.val, end=" -> ")
             temp = temp.next
         print("None")
 
