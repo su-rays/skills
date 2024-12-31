@@ -1,6 +1,6 @@
 .venv
 game_development
 roadmap
-libraries
+libraries/pytorch
 roadmap
 *.yaml
