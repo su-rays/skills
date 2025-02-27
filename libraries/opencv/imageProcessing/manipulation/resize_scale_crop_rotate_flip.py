@@ -7,7 +7,12 @@ image = cv2.imread("/home/su-rays/projects/skills/libraries/opencv/data/cat.jpg"
 resized_img = cv2.resize(image, (640, 480))
 
 # crop the image
-cropped_img = image[50:200, 100:300]
+x, y, w, h = 100, 100, 200, 200  # Crop a 200x200 region starting at (100, 100)
+cropped_img = image[y:y+h, x:x+w]
+
+# Zoom in/out
+scale_factor = 1.5  # Scale by 1.5x
+scaled_image = cv2.resize(image, None, fx=scale_factor, fy=scale_factor)
 
 # rotate the image
 h, w = image.shape[:2]
