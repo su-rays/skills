@@ -4,8 +4,8 @@ import numpy as np
 # Read images
 image1 = cv2.imread("/home/su-rays/projects/skills/libraries/opencv/data/cat.jpg")
 image2 = cv2.imread("/home/su-rays/projects/skills/libraries/opencv/data/dog.jpeg")
-image3 = cv2.imread("/home/su-rays/projects/skills/libraries/opencv/data/bird.jpg")
-image4 = cv2.imread("/home/su-rays/projects/skills/libraries/opencv/data/fish.jpg")
+image3 = cv2.imread("/home/su-rays/projects/skills/libraries/opencv/data/bird.jpeg")
+image4 = cv2.imread("/home/su-rays/projects/skills/libraries/opencv/data/fish.jpeg")
 
 # Resize images to the same size
 size = (200, 200)
