@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 
 # read image
-image = cv2.imread("/home/su-rays/projects/skills/libraries/opencv/data/cat.jpg", 0) # grayscale
+image = cv2.imread("/home/su-rays/projects/skills/libraries/opencv/data/cat.jpg")
 
 # kernal
 kernel = np.ones((5, 5), np.uint8)

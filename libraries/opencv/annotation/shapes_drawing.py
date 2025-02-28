@@ -11,12 +11,14 @@ cv2.line(image, (50, 50), (450, 50), (0, 0, 255), 2)
 cv2.circle(image, (250, 250), 100, (0, 255, 0), 2)
 
 # Draw a rectangle (top-left and bottom-right corners, color, thickness)
-cv2.rectangle(image, (100, 100), (400, 400), (255, 0, 0), 2)
+x, y, w, h = 100, 100, 300, 300
+cv2.rectangle(image, (x, y), (x + w, y + h), (0, 255, 0), 2)
 
 # Draw a polygon (list of vertices, color, thickness)
-pts = np.array([[200, 200], [300, 200], [350, 300], [250, 350], [150, 300]], np.int32)
-pts = pts.reshape((-1, 1, 2))
-cv2.polylines(image, [pts], isClosed=True, color=(0, 255, 255), thickness=2)
+points = np.array([[200, 200], [300, 200], [350, 300], [250, 350], [150, 300]], np.int32)
+points = points.reshape((-1, 1, 2))
+cv2.polylines(image, [points], isClosed=True, color=(0, 255, 255), thickness=2)
+
 
 # Display the image
 cv2.imshow("Shapes", image)
